@@ -24,13 +24,12 @@ const dscWebhook = process.env.webhookthing;
 // const blockedIpsPath = path.join(__dirname, "..", "blocked.json");
 // let blockedIps = [];
 let gooners = [
-  "192.189.117.22",
   "198.175.205.15",
   "172.59.78.231",
   "35.146.250.96",
   "76.14.58.188",
-  "149.19.33.72"
-]
+  "149.19.33.72",
+];
 // try {
 //   const data = readFileSync(blockedIpsPath, "utf-8");
 //   blockedIps = JSON.parse(data);
@@ -59,7 +58,11 @@ const fastify = Fastify({
 });
 fastify.addHook("onRequest", async (request, reply) => {
   if (gooners.includes(request.ip)) {
-    reply.code(200).send({ error: `You have been identified as a gooner. Your IP, ${request.ip} has been traced and reported to the FBI. Join discord.com/invite/Dvh2veTWU4 to appeal` });
+    reply
+      .code(200)
+      .send({
+        error: `You have been identified as a gooner. Your IP, ${request.ip} has been traced and reported to the FBI. Join discord.com/invite/Dvh2veTWU4 to appeal`,
+      });
     console.log("Gooner detected: " + request.ip);
   }
 });
